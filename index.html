@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<title>Home Domotic System</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+	<link rel="stylesheet" href="./assets/css/app.css">
+</head>
+<body onload="setValues()">
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" id="dashboard_title" href="#"><label>Home Domotic System</label></a>  
+	    </div>
+		<button class="btn btn-danger my-2 my-sm-0 navbar-right" type="submit" id="alert">Danger!</button>
+		<audio id="alertsound" src="./assets//media/alertsounds.mp3"></audio>
+	  </div>
+	</nav>
+	<div id="request_result"></div>
+        <div class="panel panel-info">
+            <div class="panel-heading"><b>Controls</b></div>
+            <div class="panel-body">
+            	<div class="col-lg-4 col-md-4 col-sm-4">
+			        <div class="panel panel-success">
+			            <div class="panel-heading"><b>Lights</b></div>
+			            <div class="panel-body">
+			            	<div id="lights-form" class="form">
+								<h2>Light 1</h2>
+								<h3 id="light1status"></h3>
+								<button type="button" class="btn btn-outline-dark" id="light1">Light switcher</button>
+							</div>
+							<div id="lights-form" class="form">
+								<h2>Light 2</h2>
+								<h3 id="light2status"></h3>
+								<button type="button" class="btn btn-outline-dark" id="light2">Light switcher</button>
+							</div>
+			            	<div id="lights-form" class="form">
+								<h2>Light 3</h2>
+								<h3 id="light3status"></h3>
+								<button type="button" class="btn btn-outline-dark" id="light3">Light switcher</button>
+							</div>
+			            	<div id="lights-form" class="form">
+								<h2>Light 4</h2>
+								<h3 id="light4status"></h3>
+								<button type="button" class="btn btn-outline-dark" id="light4">Light switcher</button>
+							</div>
+			            </div>
+			        </div>
+			    </div>
+			    <div class="col-lg-4 col-md-4 col-sm-4">
+			        <div class="panel panel-success">
+			            <div class="panel-heading"><b>Sockets and doors</b></div>
+			            <div class="panel-body">
+			            	<div id="sockets-form" class="form">
+								<h2>Socket 1</h2>
+								<h3 id="socket1status"></h3>
+								<button type="button" class="btn btn-outline-dark" id="socket1">Socket switcher</button>
+							</div>
+			            	<div id="sockets-form" class="form">
+								<h2>Socket 2</h2>
+								<h3 id="socket2status"></h3>
+								<button type="button" class="btn btn-outline-dark" id="socket2">Socket switcher</button>
+							</div>
+			            	<div id="sockets-form" class="form">
+								<h2>Socket 3</h2>
+								<h3 id="socket3status"></h3>
+								<button type="button" class="btn btn-outline-dark" id="socket3">Socket switcher</button>
+							</div>
+			            	<div id="door-form" class="form">
+								<h2>Frontdoor</h2>
+								<h3 id="frontdoorstatus"></h3>
+								<button type="button" class="btn btn-outline-dark" id="frontdoor">Frontdoor switcher</button>
+							</div>
+			            	<div id="door-form" class="form">
+								<h2>Backdoor</h2>
+								<h3 id="backdoorstatus"></h3>
+								<button type="button" class="btn btn-outline-dark" id="backdoor">Backdoor switcher</button>
+							</div>
+			            </div>
+			        </div>
+			    </div>
+			    <div class="col-lg-4 col-md-4 col-sm-4">
+			        <div class="panel panel-warning">
+			            <div class="panel-heading"><b>Sensors</b></div>
+			            <div id="sensor_body" class="panel-body"></div>
+			            <div class="table-responsive">
+			            	<table class="table table-striped">
+			            		<thead>
+			            			<tr>
+			            				<th>Temperature</th>
+			            				<th>Humidity</th>
+			            			</tr>
+			            		</thead>
+			            		<tbody id="tbody-sensors">
+									<tr>
+										<td><h3 id="temperature"></h3></td>
+										<td><h3 id="humidity"></h3></td>
+									</tr>
+			            		</tbody>
+			            	</table>
+			            </div>
+			        </div>
+			    </div>
+            </div>
+        </div>
+	
+  <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+
+
+  <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+  <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-analytics.js"></script>
+
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+
+  <script src="./assets/js/app.js"></script>
+</body>
+</html>
